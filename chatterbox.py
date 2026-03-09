@@ -39,7 +39,7 @@ padding:8px;
 
 <body>
 
-<h2>Chatterbox - Milestone 2</h2>
+<h2>Chatterbox - WebSocket Chat</h2>
 
 <div id="chat"></div>
 
@@ -123,6 +123,13 @@ async def websocket_chat(ws: WebSocket):
             message = data.get("message")
 
             if message:
+
+                # Milestone 1 smart responses
+                if message.lower() == "hello":
+                    message = "Server: Hello!"
+                elif message.lower() == "bye":
+                    message = "Server: Goodbye!"
+
                 await broadcast({
                     "type": "chat",
                     "user": username,
@@ -145,4 +152,4 @@ async def broadcast(data):
         await connection.send_json(data)
 
 if __name__ == "__main__":
-    uvicorn.run("secondMilestone:app", host="localhost", port=8000, reload=True)
+    uvicorn.run("chatterbox:app", host="localhost", port=8000, reload=True)
